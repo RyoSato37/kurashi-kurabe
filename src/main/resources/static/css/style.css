@@ -1,0 +1,11 @@
+/* 比較表：項目列の幅を固定して見やすく */
+.compare-table th[scope="row"] {
+    width: 25%;
+    background-color: #f8f9fa;
+}
+
+/* AIコメント：ストリーミングで文字が増えていく想定なので最低の高さを確保 */
+.ai-comment {
+    min-height: 6rem;
+    white-space: pre-wrap;
+}

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('検索・比較')}"></head>
+<body class="bg-light">
+
+<div th:replace="~{fragments/common :: header}"></div>
+
+<main class="container my-4">
+
+    <h1 class="h4 mb-3">群馬県の自治体をくらべる</h1>
+
+    <!-- 検索フォーム（③〜⑥）：通常のGET送信 -->
+    <form th:action="@{/}" method="get" class="card card-body mb-4">
+
+        <!-- ③ 検索窓（キーワード） -->
+        <div class="mb-3">
+            <label for="keyword" class="form-label fw-bold">キーワード</label>
+            <input type="text" id="keyword" name="keyword" class="form-control"
+                   placeholder="自治体名やキーワードを入力">
+        </div>
+
+        <div class="row">
+            <!-- ④ エリア絞り込み（最大3つ） -->
+            <div class="col-md-6 mb-3">
+                <p class="form-label fw-bold mb-1">エリア <span class="text-muted small">（最大3つまで）</span></p>
+                <div class="border rounded p-2 bg-white">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="areas" value="1" id="area1" checked>
+                        <label class="form-check-label" for="area1">前橋市</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="areas" value="2" id="area2">
+                        <label class="form-check-label" for="area2">高崎市</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="areas" value="3" id="area3">
+                        <label class="form-check-label" for="area3">太田市</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="areas" value="4" id="area4" checked>
+                        <label class="form-check-label" for="area4">南牧村</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="areas" value="5" id="area5">
+                        <label class="form-check-label" for="area5">上野村</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="areas" value="6" id="area6">
+                        <label class="form-check-label" for="area6">片品村</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="areas" value="7" id="area7">
+                        <label class="form-check-label" for="area7">みなかみ町</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="areas" value="8" id="area8" checked>
+                        <label class="form-check-label" for="area8">草津町</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="areas" value="9" id="area9">
+                        <label class="form-check-label" for="area9">中之条町</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="areas" value="10" id="area10">
+                        <label class="form-check-label" for="area10">川場村</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ⑤ 条件絞り込み -->
+            <div class="col-md-6 mb-3">
+                <p class="form-label fw-bold mb-1">条件</p>
+                <div class="border rounded p-2 bg-white">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="conditions" value="fiber" id="cond-fiber">
+                        <label class="form-check-label" for="cond-fiber">光回線あり</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="conditions" value="signal" id="cond-signal">
+                        <label class="form-check-label" for="cond-signal">電波良好</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="conditions" value="car" id="cond-car">
+                        <label class="form-check-label" for="cond-car">車なしでも暮らせる</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="conditions" value="safety" id="cond-safety">
+                        <label class="form-check-label" for="cond-safety">治安が良い</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="conditions" value="snow" id="cond-snow">
+                        <label class="form-check-label" for="cond-snow">積雪が少ない</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ⑥ 検索ボタン -->
+        <button type="submit" class="btn btn-success w-100">検索する</button>
+    </form>
+
+    <!-- ⑦ 比較結果一覧エリア（行＝比較項目／列＝自治体） -->
+    <section class="mb-3">
+        <h2 class="h5 mb-2">比較結果</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered bg-white align-middle compare-table">
+                <thead class="table-success">
+                <tr>
+                    <th scope="col">比較項目</th>
+                    <th scope="col"><a th:href="@{/municipalities/1}">前橋市</a></th>
+                    <th scope="col"><a th:href="@{/municipalities/4}">南牧村</a></th>
+                    <th scope="col"><a th:href="@{/municipalities/8}">草津町</a></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">人口</th>
+                    <td>330,000人</td>
+                    <td>1,500人</td>
+                    <td>6,000人</td>
+                </tr>
+                <tr>
+                    <th scope="row">人口密度<br><span class="small text-muted">（可住地面積あたり）※</span></th>
+                    <td>2,200人/km²</td>
+                    <td>150人/km²</td>
+                    <td>600人/km²</td>
+                </tr>
+                <tr>
+                    <th scope="row">光回線</th>
+                    <td>あり <span class="small text-muted">（12件中11件）</span></td>
+                    <td>なし <span class="small text-muted">（5件中3件）</span></td>
+                    <td>あり <span class="small text-muted">（8件中6件）</span></td>
+                </tr>
+                <tr>
+                    <th scope="row">電波</th>
+                    <td>良好 <span class="small text-muted">（10件中10件）</span></td>
+                    <td>不安定 <span class="small text-muted">（4件中3件）</span></td>
+                    <td>良好 <span class="small text-muted">（6件中5件）</span></td>
+                </tr>
+                <tr>
+                    <th scope="row">車の必要性</th>
+                    <td>3.1 / 5</td>
+                    <td>4.8 / 5</td>
+                    <td>4.2 / 5</td>
+                </tr>
+                <tr>
+                    <th scope="row">治安</th>
+                    <td>3.8 / 5</td>
+                    <td>4.6 / 5</td>
+                    <td>4.3 / 5</td>
+                </tr>
+                <tr>
+                    <th scope="row">積雪</th>
+                    <td>1.5 / 5</td>
+                    <td>2.8 / 5</td>
+                    <td>4.7 / 5</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="small text-muted mb-1">
+            ※ 可住地面積 ＝ 総面積から森林・湖沼等を除いた、実際に居住可能な面積。
+            総面積ベースの他サイトの値とは異なります。
+        </p>
+        <p class="small text-muted">
+            光回線・電波は住民投稿の多数決、車・治安・積雪は住民投稿の5段階評価の平均です。
+        </p>
+    </section>
+
+    <!-- ⑧ 比較データCSVダウンロード -->
+    <div class="mb-4">
+        <a th:href="@{/compare/csv}" class="btn btn-outline-secondary w-100">
+            比較データをCSVでダウンロード
+        </a>
+    </div>
+
+    <!-- ⑨ AI比較コメントエリア(Gemini・ストリーミング表示予定) -->
+    <section class="card">
+        <div class="card-header fw-bold">AIによる比較コメント</div>
+        <div class="card-body ai-comment">
+            <p class="mb-0">
+                （モック表示）前橋市は光回線・電波ともに安定しており、都市機能を重視するリモートワーカーに向いています。
+                南牧村は治安と静かな環境が魅力ですが、車は必須です。
+                草津町は通信環境が整っている一方、冬の積雪に備えが必要です。
+            </p>
+        </div>
+    </section>
+
+</main>
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+<th:block th:replace="~{fragments/common :: scripts}"></th:block>
+</body>
+</html>
