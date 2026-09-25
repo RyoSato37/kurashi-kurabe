@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('自治体詳細')}"></head>
+<body class="bg-light">
+
+<div th:replace="~{fragments/common :: header}"></div>
+
+<main class="container my-4">
+
+    <!-- ① 自治体名・基本情報エリア -->
+    <section class="card card-body mb-3">
+        <h1 class="h3 mb-3">前橋市</h1>
+        <div class="row text-center">
+            <div class="col-4">
+                <div class="small text-muted">総人口</div>
+                <div class="fs-5 fw-bold">330,000人</div>
+            </div>
+            <div class="col-4">
+                <div class="small text-muted">可住地面積</div>
+                <div class="fs-5 fw-bold">150.00 km²</div>
+            </div>
+            <div class="col-4">
+                <div class="small text-muted">人口密度（可住地面積あたり）※</div>
+                <div class="fs-5 fw-bold">2,200人/km²</div>
+            </div>
+        </div>
+        <p class="small text-muted mt-3 mb-0">
+            ※ 可住地面積 ＝ 総面積から森林・湖沼等を除いた、実際に居住可能な面積。
+        </p>
+    </section>
+
+    <!-- ② 光回線エリア検索リンク ／ ⑦ 投稿作成ボタン -->
+    <div class="row g-2 mb-3">
+        <div class="col-md-6">
+            <div class="dropdown">
+                <button class="btn btn-outline-primary w-100 dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    光回線の提供エリアを調べる（各社サイト）
+                </button>
+                <ul class="dropdown-menu w-100">
+                    <!-- リンク先URLは工程6で確定させる -->
+                    <li><a class="dropdown-item" href="#" target="_blank" rel="noopener">NTT東日本（フレッツ光）</a></li>
+                    <li><a class="dropdown-item" href="#" target="_blank" rel="noopener">auひかり</a></li>
+                    <li><a class="dropdown-item" href="#" target="_blank" rel="noopener">NURO光</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <a th:href="@{/posts/new(municipalityId=1)}" class="btn btn-success w-100">
+                この自治体の情報を投稿する
+            </a>
+        </div>
+    </div>
+
+    <!-- ③a AI投稿要約エリア（Gemini・ストリーミング表示予定） -->
+    <section class="card mb-3">
+        <div class="card-header fw-bold">AIによる住民投稿の要約</div>
+        <div class="card-body ai-comment">
+            <p class="mb-0">
+                （モック表示）市街地では光回線・電波ともに安定しているという声が多く、
+                在宅ワークに支障はなさそうです。一方で、郊外では車がないと買い物が不便という投稿が目立ちます。
+            </p>
+        </div>
+    </section>
+
+    <!-- ④ 並び替え（MVPは新着順のみ） -->
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h2 class="h5 mb-0">住民の投稿 <span class="text-muted small">（12件）</span></h2>
+        <select class="form-select form-select-sm w-auto" aria-label="並び替え">
+            <option selected>新着順</option>
+        </select>
+    </div>
+
+    <!-- ③ 投稿一覧エリア -->
+    <section class="mb-3">
+
+        <!-- 投稿カード1：バッジあり -->
+        <article class="card mb-2">
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
+                    <div>
+                        <span class="badge text-bg-primary">光回線</span>
+                        <!-- ⑧ バッジアイコン -->
+                        <span class="badge text-bg-warning">✔ 自治体確認済み</span>
+                    </div>
+                    <span class="small text-muted">2026/09/20</span>
+                </div>
+                <p class="mb-1"><strong>評価：</strong>利用できる <span class="small text-muted">（NTT東日本）</span></p>
+                <p class="mb-2">
+                    市の中心部に住んでいます。フレッツ光で下り200Mbps前後、Web会議も問題ありません。
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="small text-muted">投稿者：まえばし在住</span>
+                    <!-- ⑥ 役に立ったボタン（通常のフォーム送信） -->
+                    <form th:action="@{/posts/1/helpful}" method="post" class="m-0">
+                        <button type="submit" class="btn btn-outline-success btn-sm">
+                            👍 役に立った <span class="badge text-bg-success">8</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </article>
+
+        <!-- 投稿カード2：バッジなし・5段階評価 -->
+        <article class="card mb-2">
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
+                    <div>
+                        <span class="badge text-bg-secondary">車</span>
+                    </div>
+                    <span class="small text-muted">2026/09/18</span>
+                </div>
+                <p class="mb-1"><strong>車の必要性：</strong>4 / 5</p>
+                <p class="mb-2">
+                    駅周辺なら徒歩とバスで暮らせますが、郊外のスーパーや病院に行くには車があった方が安心です。
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="small text-muted">投稿者：けんみん</span>
+                    <form th:action="@{/posts/2/helpful}" method="post" class="m-0">
+                        <button type="submit" class="btn btn-outline-success btn-sm">
+                            👍 役に立った <span class="badge text-bg-success">3</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </article>
+
+        <!-- 投稿カード3：積雪 -->
+        <article class="card mb-2">
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
+                    <div>
+                        <span class="badge text-bg-info">積雪</span>
+                    </div>
+                    <span class="small text-muted">2026/09/15</span>
+                </div>
+                <p class="mb-1"><strong>積雪：</strong>1 / 5</p>
+                <p class="mb-2">
+                    市街地はほとんど積もりません。冬は雪よりからっ風の方が大変です。
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="small text-muted">投稿者：からっ風</span>
+                    <form th:action="@{/posts/3/helpful}" method="post" class="m-0">
+                        <button type="submit" class="btn btn-outline-success btn-sm">
+                            👍 役に立った <span class="badge text-bg-success">1</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <!-- ⑤ ページング（LIMIT/OFFSET方式） -->
+    <nav aria-label="投稿のページ送り">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled"><a class="page-link" href="#">前へ</a></li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">次へ</a></li>
+        </ul>
+    </nav>
+
+</main>
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+<th:block th:replace="~{fragments/common :: scripts}"></th:block>
+</body>
+</html>
