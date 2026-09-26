@@ -11,4 +11,16 @@ public class HomeController {
   public String index() {
     return "index";
   }
+
+  // G-3 会員登録画面（モック。工程4で認証用Controllerへ移す）
+  @GetMapping("/register")
+  public String register() {
+    return "register";
+  }
+
+  // G-4 ログイン画面（モック。工程4で認証用Controllerへ移す）
+  @GetMapping("/login")
+  public String login() {
+    return "login";
+  }
 }

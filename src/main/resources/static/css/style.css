@@ -9,3 +9,10 @@
     min-height: 6rem;
     white-space: pre-wrap;
 }
+/* ログイン・会員登録画面の横画像 */
+.auth-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
